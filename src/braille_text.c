@@ -19,12 +19,11 @@ static void DecompressGlyph_Braille(u16);
 u16 FontFunc_Braille(struct TextPrinter *textPrinter)
 {
     u16 char_;
-    struct TextPrinterSubStruct *sub = &textPrinter->subUnion.sub;
 
     switch (textPrinter->state)
     {
     case RENDER_STATE_HANDLE_CHAR:
-        if (JOY_HELD(A_BUTTON | B_BUTTON) && sub->hasPrintBeenSpedUp)
+        if (JOY_HELD(A_BUTTON | B_BUTTON) && textPrinter->subUnion.sub.hasPrintBeenSpedUp)
         {
             textPrinter->delayCounter = 0;
         }
@@ -33,7 +32,7 @@ u16 FontFunc_Braille(struct TextPrinter *textPrinter)
             textPrinter->delayCounter--;
             if (gTextFlags.canABSpeedUpPrint && JOY_NEW(A_BUTTON | B_BUTTON))
             {
-                sub->hasPrintBeenSpedUp = TRUE;
+                textPrinter->subUnion.sub.hasPrintBeenSpedUp = TRUE;
                 textPrinter->delayCounter = 0;
             }
             return RENDER_UPDATE;
@@ -83,7 +82,7 @@ u16 FontFunc_Braille(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_FONT:
-                sub->glyphId = *textPrinter->printerTemplate.currentChar;
+                textPrinter->subUnion.sub.glyphId = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_RESET_FONT:
@@ -95,7 +94,7 @@ u16 FontFunc_Braille(struct TextPrinter *textPrinter)
             case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
                 textPrinter->state = RENDER_STATE_WAIT;
                 if (gTextFlags.autoScroll)
-                    sub->autoScrollDelay = 0;
+                    textPrinter->subUnion.sub.autoScrollDelay = 0;
                 return RENDER_UPDATE;
             case EXT_CTRL_CODE_WAIT_SE:
                 textPrinter->state = RENDER_STATE_WAIT_SE;

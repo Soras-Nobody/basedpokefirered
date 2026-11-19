@@ -385,99 +385,84 @@ static const u16 sFontBoldJapaneseGlyphs[] = INCBIN_U16("graphics/fonts/japanese
 
 u16 FontFunc_Small(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_SMALL;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 u16 FontFunc_NormalCopy1(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_NORMAL_COPY_1;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 u16 FontFunc_Normal(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_NORMAL;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 u16 FontFunc_NormalCopy2(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_NORMAL_COPY_2;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 u16 FontFunc_Male(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_MALE;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 u16 FontFunc_Female(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
-    if (subStruct->hasGlyphIdBeenSet == 0)
+    if (textPrinter->subUnion.sub.hasGlyphIdBeenSet == 0)
     {
         textPrinter->subUnion.sub.glyphId = FONT_FEMALE;
-        subStruct->hasGlyphIdBeenSet = 1;
+        textPrinter->subUnion.sub.hasGlyphIdBeenSet = 1;
     }
     return RenderText(textPrinter);
 }
 
 void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
-
     if (gTextFlags.autoScroll == 1)
-        subStruct->autoScrollDelay = 0;
+        textPrinter->subUnion.sub.autoScrollDelay = 0;
     else
     {
-        subStruct->downArrowYPosIdx = 0;
-        subStruct->downArrowDelay = 0;
+        textPrinter->subUnion.sub.downArrowYPosIdx = 0;
+        textPrinter->subUnion.sub.downArrowDelay = 0;
     }
 }
 
 void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
     const u8 *arrowTiles;
 
     if (gTextFlags.autoScroll == 0)
     {
-        if (subStruct->downArrowDelay != 0)
+        if (textPrinter->subUnion.sub.downArrowDelay != 0)
         {
-            subStruct->downArrowDelay = ((*(u32 *)&textPrinter->subUnion.sub) << 19 >> 27) - 1;    // convoluted way of getting field_1, necessary to match
+            textPrinter->subUnion.sub.downArrowDelay--;    // convoluted way of getting field_1, necessary to match
         }
         else
         {
@@ -503,7 +488,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
             BlitBitmapRectToWindow(
                 textPrinter->printerTemplate.windowId,
                 arrowTiles,
-                sDownArrowYCoords[subStruct->downArrowYPosIdx],
+                sDownArrowYCoords[textPrinter->subUnion.sub.downArrowYPosIdx],
                 0,
                 0x80,
                 0x10,
@@ -513,8 +498,8 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
                 12);
             CopyWindowToVram(textPrinter->printerTemplate.windowId, 0x2);
 
-            subStruct->downArrowDelay = CURSOR_DELAY;
-            subStruct->downArrowYPosIdx = (*(u32 *)subStruct << 17 >> 30) + 1;
+            textPrinter->subUnion.sub.downArrowDelay = CURSOR_DELAY;
+            textPrinter->subUnion.sub.downArrowYPosIdx++;
         }
     }
 }
@@ -533,16 +518,15 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
 
 bool8 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
     u8 delay = (gQuestLogState == QL_STATE_PLAYBACK) ? 50 : 120;
 
-    if (subStruct->autoScrollDelay == delay)
+    if (textPrinter->subUnion.sub.autoScrollDelay == delay)
     {
         return TRUE;
     }
     else
     {
-        subStruct->autoScrollDelay++;
+        textPrinter->subUnion.sub.autoScrollDelay++;
         return FALSE;
     }
 }
@@ -628,7 +612,6 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
 
 u16 RenderText(struct TextPrinter *textPrinter)
 {
-    struct TextPrinterSubStruct *subStruct = &textPrinter->subUnion.sub;
     u16 currChar;
     s32 width;
     s32 widthHelper;
@@ -636,7 +619,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
     switch (textPrinter->state)
     {
     case RENDER_STATE_HANDLE_CHAR:
-        if (JOY_HELD(A_BUTTON | B_BUTTON) && subStruct->hasPrintBeenSpedUp)
+        if (JOY_HELD(A_BUTTON | B_BUTTON) && textPrinter->subUnion.sub.hasPrintBeenSpedUp)
             textPrinter->delayCounter = 0;
 
         if (textPrinter->delayCounter && textPrinter->textSpeed)
@@ -644,7 +627,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             textPrinter->delayCounter--;
             if (gTextFlags.canABSpeedUpPrint && JOY_NEW(A_BUTTON | B_BUTTON))
             {
-                subStruct->hasPrintBeenSpedUp = TRUE;
+                textPrinter->subUnion.sub.hasPrintBeenSpedUp = TRUE;
                 textPrinter->delayCounter = 0;
             }
             return RENDER_UPDATE;
@@ -700,7 +683,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_FONT:
-                subStruct->glyphId = *textPrinter->printerTemplate.currentChar;
+                textPrinter->subUnion.sub.glyphId = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_RESET_FONT:
@@ -713,7 +696,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
                 textPrinter->state = RENDER_STATE_WAIT;
                 if (gTextFlags.autoScroll)
-                    subStruct->autoScrollDelay = 0;
+                    textPrinter->subUnion.sub.autoScrollDelay = 0;
                 return RENDER_UPDATE;
             case EXT_CTRL_CODE_WAIT_SE:
                 textPrinter->state = RENDER_STATE_WAIT_SE;
@@ -814,7 +797,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             return RENDER_FINISH;
         }
 
-        switch (subStruct->glyphId)
+        switch (textPrinter->subUnion.sub.glyphId)
         {
         case FONT_SMALL:
             DecompressGlyph_Small(currChar, textPrinter->japanese);

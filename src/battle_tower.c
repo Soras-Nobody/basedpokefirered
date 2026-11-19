@@ -126,12 +126,12 @@ static const u16 sBattleTowerHeldItems[] = {
 
 static const u8 sMaleTrainerClasses[] =
 {
-
+    0,
 };
 
 static const u8 sFemaleTrainerClasses[] =
 {
-
+    0,
 };
 
 static const u8 sMaleTrainerGfx[] =
