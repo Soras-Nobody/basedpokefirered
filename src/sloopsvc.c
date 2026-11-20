@@ -33,7 +33,7 @@ void svc_41(void) {
 // Called by rfu_REQ_configGameData.
 void svc_47(void) {
     u8* params = gSvc47Params.HostRfuGameData;
-    memcpy(params, &gHostRfuGameData, sizeof(gSvc47Params.HostRfuGameData));
+    memcpy(params, &gHostRfuGameData, sizeof(gHostRfuGameData));
     memcpy(&params[sizeof(gSvc47Params.HostRfuGameData)], gHostRfuUsername, sizeof(gSvc47Params.HostRfuUsername));
     asm volatile(
         "movs r0, %0 \n"
