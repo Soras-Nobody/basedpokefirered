@@ -1,6 +1,6 @@
-# Pokémon Based FireRed and LeafGreen
+# Based Pokémon FireRed and LeafGreen
 
-This is the source code of English Pokémon Based FireRed and LeafGreen.
+This is the source code of Based Pokémon FireRed and LeafGreen.
 
 It builds the following ROM images:
 
