@@ -12,7 +12,6 @@ jobs:
       GAME_LANGUAGE: ENGLISH
       GAME_REVISION: 0
       MODERN: 1
-      COMPARE: 0
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -28,8 +27,7 @@ jobs:
           sudo apt update
           sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libpng-dev
         # build-essential and git are already installed
-        # gcc-arm-none-eabi is only needed for the modern build
-        # as an alternative to dkP
+        # gcc-arm-none-eabi is needed for the modern build
 
       - name: Install agbcc
         run: |
@@ -37,6 +35,81 @@ jobs:
           ./install.sh ../
         working-directory: ./agbcc
 
-      - name: Build
+      - name: Build Based FireRed
         run: |
-          make -j${nproc} all
+          make -j$(nproc)
+
+      - name: Build Based FireRed Rev1
+        env:
+          GAME_REVISION: 1
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based FireRed Switch
+        env:
+          GAME_REVISION: 10
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen
+        env:
+          GAME_VERSION: LEAFGREEN
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen Rev1
+        env:
+          GAME_VERSION: LEAFGREEN
+          GAME_REVISION: 1
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen Switch
+        env:
+          GAME_VERSION: LEAFGREEN
+          GAME_REVISION: 10
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based FireRed Classic
+        env:
+          MODERN: 0
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based FireRed Rev1 Classic
+        env:
+          GAME_REVISION: 1
+          MODERN: 0
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based FireRed Switch Classic
+        env:
+          GAME_REVISION: 10
+          MODERN: 0
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen Classic
+        env:
+          GAME_VERSION: LEAFGREEN
+          MODERN: 0
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen Rev1 Classic
+        env:
+          GAME_VERSION: LEAFGREEN
+          GAME_REVISION: 1
+          MODERN: 0
+        run: |
+          make -j$(nproc)
+
+      - name: Build Based LeafGreen Switch Classic
+        env:
+          GAME_VERSION: LEAFGREEN
+          GAME_REVISION: 10
+          MODERN: 0
+        run: |
+          make -j$(nproc)

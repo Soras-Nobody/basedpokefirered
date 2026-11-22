@@ -45,7 +45,7 @@ else
   CPP := $(PREFIX)cpp
 endif
 
-ROM := poke$(BUILD_NAME).gba
+ROM := basedpoke$(BUILD_NAME).gba
 OBJ_DIR := $(BUILD_DIR)/$(BUILD_NAME)
 
 ELF := $(ROM:.gba=.elf)
@@ -118,7 +118,6 @@ MAPJSON   := $(TOOLS_DIR)/mapjson/mapjson$(EXE)
 JSONPROC  := $(TOOLS_DIR)/jsonproc/jsonproc$(EXE)
 
 PERL := perl
-SHA1 := $(shell { command -v sha1sum || command -v shasum; } 2>/dev/null) -c
 
 MAKEFLAGS += --no-print-directory
 
@@ -129,11 +128,11 @@ MAKEFLAGS += --no-print-directory
 # Delete files that weren't built properly
 .DELETE_ON_ERROR:
 
-ALL_BUILDS := firered firered_rev1 firered_rev10 leafgreen leafgreen_rev1 leafgreen_rev10
-ALL_BUILDS += $(ALL_BUILDS:%=%_modern)
+ALL_BUILDS := firered firered_rev1 firered_switch leafgreen leafgreen_rev1 leafgreen_switch
+ALL_BUILDS += $(ALL_BUILDS:%=%_classic)
 
 RULES_NO_SCAN += clean clean-assets tidy generated clean-generated
-.PHONY: all rom modern compare $(ALL_BUILDS) $(ALL_BUILDS:%=compare_%)
+.PHONY: all rom classic $(ALL_BUILDS)
 .PHONY: $(RULES_NO_SCAN)
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
@@ -196,14 +195,10 @@ SUBDIRS  := $(sort $(dir $(OBJS)))
 $(shell mkdir -p $(SUBDIRS))
 
 # Pretend rules that are actually flags defer to `make all`
-modern: all
-compare: all
+classic: all
 
 # Other rules
 rom: $(ROM)
-ifeq ($(COMPARE),1)
-	@$(SHA1) $(BUILD_NAME).sha1
-endif
 
 syms: $(SYM)
 
@@ -218,28 +213,23 @@ clean-assets:
 	find $(DATA_ASM_SUBDIR)/maps \( -iname 'connections.inc' -o -iname 'events.inc' -o -iname 'header.inc' \) -exec rm {} +
 
 tidy:
-	$(RM) $(ALL_BUILDS:%=poke%{.gba,.elf,.map})
+	$(RM) $(ALL_BUILDS:%=basedpoke%{.gba,.elf,.map,.sym})
 	$(RM) -r $(BUILD_DIR)
 
 # "friendly" target names for convenience sake
-firered:                ; @$(MAKE) GAME_VERSION=FIRERED
-firered_rev1:           ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1
-firered_switch:          ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=10
-leafgreen:              ; @$(MAKE) GAME_VERSION=LEAFGREEN
-leafgreen_rev1:         ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1
-leafgreen_switch:        ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=10
+firered:                  ; @$(MAKE) GAME_VERSION=FIRERED
+firered_rev1:             ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1
+firered_switch:           ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=10
+leafgreen:                ; @$(MAKE) GAME_VERSION=LEAFGREEN
+leafgreen_rev1:           ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1
+leafgreen_switch:         ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=10
 
-compare_firered:        ; @$(MAKE) GAME_VERSION=FIRERED COMPARE=1
-compare_firered_rev1:   ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1 COMPARE=1
-compare_firered_switch: ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=10 COMPARE=1
-compare_leafgreen:      ; @$(MAKE) GAME_VERSION=LEAFGREEN COMPARE=1
-compare_leafgreen_rev1: ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1 COMPARE=1
-compare_leafgreen_switch:; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=10 COMPARE=1
-
-firered_modern:        ; @$(MAKE) GAME_VERSION=FIRERED MODERN=1
-firered_rev1_modern:   ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1 MODERN=1
-leafgreen_modern:      ; @$(MAKE) GAME_VERSION=LEAFGREEN MODERN=1
-leafgreen_rev1_modern: ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1 MODERN=1
+firered_classic:          ; @$(MAKE) GAME_VERSION=FIRERED MODERN=0
+firered_rev1_classic:     ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1 MODERN=0
+firered_switch_classic:   ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=10 MODERN=0
+leafgreen_classic:        ; @$(MAKE) GAME_VERSION=LEAFGREEN MODERN=0
+leafgreen_rev1_classic:   ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1 MODERN=0
+leafgreen_switch_classic: ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=10 MODERN=0
 
 # Other rules
 include graphics_file_rules.mk

@@ -1,6 +1,6 @@
 # Instructions
 
-These instructions explain how to set up the tools required to build **pokefirered**, which assembles the source files into a ROM.
+These instructions explain how to set up the tools required to build **basedpokefirered**, which assembles the source files into one of several ROMs.
 
 These instructions come with notes which can be expanded by clicking the "<i>Note...</i>" text.
 In general, you should not need to open these unless if you get an error or if you need additional clarification.
@@ -27,10 +27,10 @@ All of the Windows instructions assume that the default drive is C:\\. If this d
 **A note of caution**: As Windows 7 is officially unsupported by Microsoft and Windows 8 has very little usage, some maintainers are unwilling to maintain the Windows 7/8 instructions. Thus, these instructions may break in the future with fixes taking longer than fixes to the Windows 10 instructions.
 
 ## Windows 10/11 (WSL1)
-WSL1 is the preferred terminal to build **pokefirered**. The following instructions will explain how to install WSL1 (referred to interchangeably as WSL).
+WSL1 is the preferred terminal to build **basedpokefirered**. The following instructions will explain how to install WSL1 (referred to interchangeably as WSL).
 - If WSL (Debian or Ubuntu) is **not installed**, then go to [Installing WSL1](#Installing-WSL1).
 - Otherwise, if WSL is installed, but it **hasn't previously been set up for another decompilation project**, then go to [Setting up WSL1](#Setting-up-WSL1).
-- Otherwise, **open WSL** and go to [Choosing where to store pokefirered (WSL1)](#Choosing-where-to-store-pokefirered-WSL1).
+- Otherwise, **open WSL** and go to [Choosing where to store basedpokefirered (WSL1)](#Choosing-where-to-store-basedpokefirered-WSL1).
 
 ### Installing WSL1
 1. Open [Windows Powershell **as Administrator**](https://i.imgur.com/QKmVbP9.png), and run the following command (Right Click or Shift+Insert is paste in the Powershell).
@@ -77,12 +77,10 @@ Some tips before proceeding:
     sudo apt update && sudo apt upgrade
     ```
 
-> Note: If the repository you plan to build has an **[older revision of the INSTALL.md](https://github.com/pret/pokefirered/blob/b7a6240/INSTALL.md)**, then follow the [legacy WSL1 instructions](docs/legacy_WSL1_INSTALL.md) from here.
-
-4. Certain packages are required to build pokefirered. Install these packages by running the following command:
+4. Certain packages are required to build basedpokefirered. Install these packages by running the following command:
 
     ```bash
-    sudo apt install build-essential binutils-arm-none-eabi git libpng-dev
+    sudo apt install build-essential binutils-arm-none-eabi gcc-arm-none-eabi git libpng-dev
     ```
     <details>
         <summary><i>Note...</i></summary>
@@ -90,10 +88,10 @@ Some tips before proceeding:
    >   If the above command does not work, try the above command but replacing `apt` with `apt-get`.
     </details>
 
-### Choosing where to store pokefirered (WSL1)
-WSL has its own file system that's not natively accessible from Windows, but Windows files *are* accessible from WSL. So you're going to want to store pokefirered within Windows.
+### Choosing where to store basedpokefirered (WSL1)
+WSL has its own file system that's not natively accessible from Windows, but Windows files *are* accessible from WSL. So you're going to want to store basedpokefirered within Windows.
 
-For example, say you want to store pokefirered (and agbcc) in **C:\Users\\_\<user>_\Desktop\decomps**. First, ensure that the folder already exists. Then, enter this command to **change directory** to said folder, where *\<user>* is your **Windows** username:
+For example, say you want to store basedpokefirered (and optionally agbcc) in **C:\Users\\_\<user>_\Desktop\decomps**. First, ensure that the folder already exists. Then, enter this command to **change directory** to said folder, where *\<user>* is your **Windows** username:
 
 ```bash
 cd /mnt/c/Users/<user>/Desktop/decomps
@@ -115,7 +113,7 @@ Otherwise, ask for help on Discord or IRC (see [README.md](README.md)), or conti
 
 - If devkitARM is **not installed**, then go to [Installing devkitARM](#installing-devkitarm).
 - If devkitARM is installed, but msys2 **hasn't previously been set up for another decompilation project**, then go to [Setting up msys2](#setting-up-msys2).
-- Otherwise, **open msys2** and go to [Choosing where to store pokefirered (msys2)](#choosing-where-to-store-pokefirered-msys2).
+- Otherwise, **open msys2** and go to [Choosing where to store basedpokefirered (msys2)](#choosing-where-to-store-basedpokefirered-msys2).
 
 ### Installing devkitARM
 1. Download the devkitPro installer [here](https://github.com/devkitPro/installer/releases).
@@ -127,7 +125,7 @@ Note that in msys2, Copy is Ctrl+Insert and Paste is Shift+Insert.
 
 1. Open msys2 at C:\devkitPro\msys2\msys2_shell.bat.
 
-2. Certain packages are required to build pokefirered. Install these by running the following command:
+2. Certain packages are required to build basedpokefirered. Install these by running the following command:
 
     ```bash
     pacman -S make gcc zlib-devel git
@@ -171,10 +169,10 @@ Note that in msys2, Copy is Ctrl+Insert and Paste is Shift+Insert.
     cd
     ```
 
-### Choosing where to store pokefirered (msys2)
-At this point, you can choose a folder to store pokefirered into. If you're okay with storing pokefirered in the user profile folder, then proceed to [Installation](#installation). Otherwise, you'll need to account for where pokefirered is stored when changing directory to the pokefirered folder.
+### Choosing where to store basedpokefirered (msys2)
+At this point, you can choose a folder to store basedpokefirered into. If you're okay with storing basedpokefirered in the user profile folder, then proceed to [Installation](#installation). Otherwise, you'll need to account for where basedpokefirered is stored when changing directory to the basedpokefirered folder.
 
-For example, if you want to store pokefirered (and agbcc) in **C:\Users\\_\<user>_\Desktop\decomps** (where *\<user>* is your **Windows** username), enter this command:
+For example, if you want to store basedpokefirered (and optionally agbcc) in **C:\Users\\_\<user>_\Desktop\decomps** (where *\<user>* is your **Windows** username), enter this command:
 
 ```bash
 cd Desktop/decomps
@@ -190,7 +188,7 @@ Otherwise, ask for help on Discord or IRC (see [README.md](README.md)), or conti
 2.
     - If Cygwin is **not installed**, or does not have all of the required packages installed, then go to [Installing Cygwin](#installing-cygwin).
     - If Cygwin is installed, but **is not configured to work with devkitARM**, then go to [Configuring devkitARM for Cygwin](#configuring-devkitarm-for-cygwin).
-    - Otherwise, **open Cygwin** and go to [Choosing where to store pokefirered (Cygwin)](#choosing-where-to-store-pokefirered-cygwin)
+    - Otherwise, **open Cygwin** and go to [Choosing where to store basedpokefirered (Cygwin)](#choosing-where-to-store-basedpokefirered-cygwin)
 
 ### Installing Cygwin
 1. Download [Cygwin](https://cygwin.com/install.html): setup-x86_64.exe for 64-bit Windows, setup-x86.exe for 32-bit.
@@ -233,15 +231,15 @@ Note that in Cygwin, Copy is Ctrl+Insert and Paste is Shift+Insert.
    >   Replace the drive letter c with the actual drive letter if it is not c.
     </details>
 
-### Choosing where to store pokefirered (Cygwin)
+### Choosing where to store basedpokefirered (Cygwin)
 
-Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\_\<user>_**. If you don't want to store pokefirered there, you'll need to account for where pokefirered is stored when **changing directory** to the pokefirered folder.
+Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\_\<user>_**. If you don't want to store basedpokefirered there, you'll need to account for where basedpokefirered is stored when **changing directory** to the basedpokefirered folder.
 
-For example, if you want to store pokefirered (and agbcc) in **C:\Users\\_\<user>_\Desktop\decomps**, enter this command, where *\<user>* is your **Windows** username:
+For example, if you want to store basedpokefirered (and optionally agbcc) in **C:\Users\\_\<user>_\Desktop\decomps**, enter this command, where *\<user>* is your **Windows** username:
 ```bash
 cd c:/Users/<user>/Desktop/decomps
 ```
-Note that the directory **must exist** in Windows. If you want to store pokefirered in a dedicated folder that doesn't exist (e.g. the example provided above), then create the folder (e.g. using Windows Explorer) before executing the `cd` command.
+Note that the directory **must exist** in Windows. If you want to store basedpokefirered in a dedicated folder that doesn't exist (e.g. the example provided above), then create the folder (e.g. using Windows Explorer) before executing the `cd` command.
 
 <details>
     <summary><i>Notes...</i></summary>
@@ -259,9 +257,9 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
     xcode-select --install
     ```
 
-2.  - If libpng is **not installed**, then go to [Installing libpng (macOS)](#installing-libpng-macos).
+- If libpng is **not installed**, then go to [Installing libpng (macOS)](#installing-libpng-macos).
 - If devkitARM is **not installed**, then go to [Installing devkitARM (macOS)](#installing-devkitarm-macos).
-- Otherwise, **open the Terminal** and go to [Choosing where to store pokefirered (macOS)](#choosing-where-to-store-pokefirered-macos)
+- Otherwise, **open the Terminal** and go to [Choosing where to store basedpokefirered (macOS)](#choosing-where-to-store-basedpokefirered-macos)
 
 ### Installing libpng (macOS)
 <details>
@@ -272,7 +270,7 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
 <details>
     <summary><i><strong>Note for Apple Silicon (M1) Mac users...</strong></i></summary>
 
->   Currently, Homebrew and libng must be installed via Rosetta on Apple Silicon Macs. Before continuing, create a [Terminal shell profile with Rosetta](https://www.astroworldcreations.com/blog/apple-silicon-and-legacy-command-line-software). Be sure to run the commands corresponding to Apple Silicon (M1).
+>   Currently, Homebrew and libpng must be installed via Rosetta on Apple Silicon Macs. Before continuing, create a [Terminal shell profile with Rosetta](https://www.astroworldcreations.com/blog/apple-silicon-and-legacy-command-line-software). Be sure to run the commands corresponding to Apple Silicon (M1).
 </details>
 
 1. Open the Terminal.
@@ -285,7 +283,7 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
     ```
    libpng is now installed.
 
-   Continue to [Installing devkitARM (macOS)](#installing-devkitarm-macos) if **devkitARM is not installed**, otherwise, go to [Choosing where to store pokefirered (macOS)](#choosing-where-to-store-pokefirered-macos).
+   Continue to [Installing devkitARM (macOS)](#installing-devkitarm-macos) if **devkitARM is not installed**, otherwise, go to [Choosing where to store basedpokefirered (macOS)](#choosing-where-to-store-basedpokefirered-macos).
 
 ### Installing devkitARM (macOS)
 1. Download the `devkitpro-pacman-installer.pkg` package from [here](https://github.com/devkitPro/pacman/releases).
@@ -314,17 +312,17 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
     echo "if [ -f ~/.zshrc ]; then . ~/.zshrc; fi" >> ~/.zprofile # Apple Silicon (M1) Macs
     ```
 
-### Choosing where to store pokefirered (macOS)
-At this point, you can choose a folder to store pokefirered into. If you're okay with storing pokefirered in the user folder, then proceed to [Installation](#installation). Otherwise, you'll need to account for where pokefirered is stored when changing directory to the pokefirered folder.
+### Choosing where to store basedpokefirered (macOS)
+At this point, you can choose a folder to store basedpokefirered into. If you're okay with storing basedpokefirered in the user folder, then proceed to [Installation](#installation). Otherwise, you'll need to account for where basedpokefirered is stored when changing directory to the basedpokefirered folder.
 
-For example, if you want to store pokefirered (and agbcc) in **~/Desktop/decomps**, enter this command to **change directory** to the desired folder:
+For example, if you want to store basedpokefirered (and optionally agbcc) in **~/Desktop/decomps**, enter this command to **change directory** to the desired folder:
 ```bash
 cd Desktop/decomps
 ```
-Note that the directory **must exist** in the folder system. If you want to store pokefirered in a dedicated folder that doesn't exist (e.g. the example provided above), then create the folder (e.g. using Finder) before executing the `cd` command.
+Note that the directory **must exist** in the folder system. If you want to store basedpokefirered in a dedicated folder that doesn't exist (e.g. the example provided above), then create the folder (e.g. using Finder) before executing the `cd` command.
 
 <details>
-    <summary><i>Note..</i>.</summary>
+    <summary><i>Note...</i></summary>
 
 >   Note: If the path has spaces, then the path must be wrapped with quotations, e.g. `cd "Desktop/decomp folder"`
 </details>
@@ -337,16 +335,9 @@ Open Terminal and enter the following commands, depending on which distro you're
 ### Debian/Ubuntu-based distributions
 Run the following command to install the necessary packages:
 ```bash
-sudo apt install build-essential binutils-arm-none-eabi git libpng-dev
+sudo apt install build-essential binutils-arm-none-eabi gcc-arm-none-eabi git libpng-dev
 ```
-Then proceed to [Choosing where to store pokefirered (Linux)](#choosing-where-to-store-pokefirered-linux).
-<details>
-    <summary><i>Note for legacy repos...</i></summary>
-
->   If the repository you plan to build has an **[older revision of the INSTALL.md](https://github.com/pret/pokefirered/blob/571c598/INSTALL.md)**,
->   then you will have to install devkitARM. Install all the above packages except binutils-arm-none-eabi, and follow the instructions to
->   [install devkitARM on Debian/Ubuntu-based distributions](#installing-devkitarm-on-debianubuntu-based-distributions).
-</details>
+Then proceed to [Choosing where to store basedpokefirered (Linux)](#choosing-where-to-store-basedpokefirered-linux).
 
 ### Other distributions
 _(Specific instructions for other distributions would be greatly appreciated!)_
@@ -368,8 +359,8 @@ _(Specific instructions for other distributions would be greatly appreciated!)_
 
    The last command will ask for the selection of packages to install. Just press Enter to install all of them, followed by entering Y to proceed with the installation.
 
-### Choosing where to store pokefirered (Linux)
-At this point, you can choose a folder to store pokefirered (and agbcc) into. If so, you'll have to account for the modified folder path when changing directory to the pokefirered folder.
+### Choosing where to store basedpokefirered (Linux)
+At this point, you can choose a folder to store basedpokefirered (and optionally agbcc) into. If so, you'll have to account for the modified folder path when changing directory to the basedpokefirered folder.
 
 If this works, then proceed to [Installation](#installation). Otherwise, ask for help on Discord or IRC (see [README.md](README.md)).
 
@@ -378,15 +369,15 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
 <details>
     <summary><i>Note for Windows users...</i></summary>
 
->   Consider adding an exception for the `pokefirered` and/or `decomps` folder in Windows Security using
+>   Consider adding an exception for the `basedpokefirered` and/or `decomps` folder in Windows Security using
 >   [these instructions](https://support.microsoft.com/help/4028485). This prevents Microsoft Defender from
 >   scanning them which might improve performance while building.
 </details>
 
-1. If pokefirered is not already downloaded (some users may prefer to download pokefirered via a git client like GitHub Desktop), run:
+1. If basedpokefirered is not already downloaded (some users may prefer to download basedpokefirered via a git client like GitHub Desktop), run:
 
     ```bash
-    git clone https://github.com/pret/pokefirered
+    git clone https://github.com/Soras-Nobody/basedpokefirered
     ```
 
     <details>
@@ -397,76 +388,78 @@ If this works, then proceed to [Installation](#installation). Otherwise, ask for
     >   cd
     >   sudo umount /mnt/c
     >   sudo mount -t drvfs C: /mnt/c -o metadata,noatime
-    >   cd <folder where pokefirered is to be stored>
+    >   cd <folder where basedpokefirered is to be stored>
     >   ```
-   >   Where *\<folder where pokefirered is to be stored>* is the path of the folder [where you chose to store pokefirered](#Choosing-where-to-store-pokefirered-WSL1). Then run the `git clone` command again.
+   >   Where *\<folder where basedpokefirered is to be stored>* is the path of the folder [where you chose to store basedpokefirered](#Choosing-where-to-store-basedpokefirered-WSL1). Then run the `git clone` command again.
     </details>
 
-2. Install agbcc into pokefirered. The commands to run depend on certain conditions. **You should only follow one of the listed instructions**:
-- If agbcc has **not been built before** in the folder where you chose to store pokefirered, run the following commands to build and install it into pokefirered:
+2. If you would like to install agbcc into basedpokefirered (for classic builds) the commands to run depend on certain conditions. **You should only follow one of the listed instructions**:
+- If agbcc has **not been built before** in the folder where you chose to store basedpokefirered, run the following commands to build and install it into basedpokefirered:
 
     ```bash
     git clone https://github.com/pret/agbcc
     cd agbcc
     ./build.sh
-    ./install.sh ../pokefirered
+    ./install.sh ../basedpokefirered
     ```
 
-- **Otherwise**, if agbcc has been built before (e.g. if the git clone above fails), but was **last built on a different terminal** than the one currently used (only relevant to Windows, e.g. switching from msys2 to WSL1), then run the following commands to build and install it into pokefirered:
+- **Otherwise**, if agbcc has been built before (e.g. if the git clone above fails), but was **last built on a different terminal** than the one currently used (only relevant to Windows, e.g. switching from msys2 to WSL1), then run the following commands to build and install it into basedpokefirered:
 
     ```bash
     cd agbcc
     git clean -fX
     ./build.sh
-    ./install.sh ../pokefirered
+    ./install.sh ../basedpokefirered
     ```
 
-- **Otherwise**, if agbcc has been built before on the same terminal, run the following commands to install agbcc into pokefirered:
+- **Otherwise**, if agbcc has been built before on the same terminal, run the following commands to install agbcc into basedpokefirered:
 
     ```bash
     cd agbcc
-    ./install.sh ../pokefirered
+    ./install.sh ../basedpokefirered
     ```
 
     <details>
         <summary><i>Note...</i></summary>
 
-        > If building agbcc or pokefirered results in an error, try deleting the agbcc folder and re-installing agbcc as if it has not been built before.
+        > If building agbcc or basedpokefirered results in an error, try deleting the agbcc folder and re-installing agbcc as if it has not been built before.
     </details>
 
-3. Once agbcc is installed, change directory back to the base directory where pokefirered and agbcc are stored:
+3. If agbcc was installed, change directory back to the base directory where basedpokefirered and agbcc are stored:
 
     ```bash
     cd ..
     ```
 
-Now you're ready to [build **pokefirered**](#build-pokefirered)
-## Build pokefirered
-If you aren't in the pokefirered directory already, then **change directory** to the pokefirered folder:
+Now you're ready to [build **basedpokefirered**](#build-basedpokefirered)
+## Build basedpokefirered
+If you aren't in the basedpokefirered directory already, then **change directory** to the basedpokefirered folder:
 ```bash
-cd pokefirered
+cd basedpokefirered
 ```
-To build **pokefirered.gba** (Note: to speed up builds, see [Parallel builds](#parallel-builds)):
+To build **basedpokefirered** run one of the following (Note: to speed up builds, see [Parallel builds](#parallel-builds)):
 ```bash
 make
+make firered_rev1
+make firered_switch
+make leafgreen
+make leafgreen_rev1
+make leafgreen_switch
 ```
-If it has built successfully you will have the output file **pokefirered.gba** in your project folder.
+and optionally (if agbcc is installed)
+```bash
+make classic
+make firered_rev1_classic
+make firered_switch_classic
+make leafgreen_classic
+make leafgreen_rev1_classic
+make leafgreen_switch_classic
+```
+If it has built successfully you will have the output file **basedpoke[BUILD_NAME].gba** in your project folder.
 <details>
 <summary>Note for Windows...</summary>
 > If you switched terminals since the last build (e.g. from msys2 to WSL1), you must run `make clean-tools` once before any subsequent `make` commands.
 </details>
-
-## Build pokeleafgreen and REV1
-Pokemon FireRed and LeafGreen were both released together. As such, this project is capable of building both ROMs. To do so, simply run
-```bash
-make leafgreen
-```
-
-This project can also build the version 1.1 ROMs of both FireRed and LeafGreen. To build each, run
-```bash
-make firered_rev1  # for FireRed 1.1
-make leafgreen_rev1  # for LeafGreen 1.1
-```
 
 # Building guidance
 
@@ -486,101 +479,9 @@ Replace `<output of nproc>` with the number that the `nproc` command returned.
 
 `nproc` is not available on macOS. The alternative is `sysctl -n hw.ncpu` ([relevant Stack Overflow thread](https://stackoverflow.com/questions/1715580)).
 
-## Compare ROM to the original
-
-For contributing, or if you'd simply like to verify that your ROM is identical to the original game, run:
-```bash
-make compare  # or compare_leafgreen, compare_firered_rev1, compare_leafgreen_rev1
-```
-If it matches, you will see the following at the end of the output:
-```bash
-pokefirered.gba: OK
-```
-If there are any changes from the original game, you will instead see:
-```bash
-pokefirered.gba: FAILED
-shasum: WARNING: 1 computed checksum did NOT match
-```
-
-## devkitARM's C compiler
-
-This project supports the `arm-none-eabi-gcc` compiler included with devkitARM. If devkitARM (a.k.a. gba-dev) has already been installed as part of the platform-specific instructions, simply run:
-```bash
-make modern  # or leafgreen_modern, firered_rev1_modern, leafgreen_rev1_modern
-```
-Otherwise, follow the instructions below to install devkitARM.
-### Installing devkitARM on WSL1
-
-1. `gdebi-core` must be installed beforehand in order to install devkitPro pacman (which facilitates the installation of devkitARM). Install this with the following command:
-
-    ```bash
-    sudo apt install gdebi-core
-    ```
-    <details>
-        <summary><i>Note...</i></summary>
-
-   >   If the above command does not work, try the above command but replacing `apt` with `apt-get`.
-    </details>
-
-2. Once `gdebi-core` is done installing, download the devkitPro pacman package [here](https://github.com/devkitPro/pacman/releases). The file to download is `devkitpro-pacman.amd64.deb`.
-3. Change directory to where the package was downloaded. For example, if the package file was saved to **C:\Users\\_\<user>_\Downloads** (the Downloads location for most users), enter this command, where *\<user> is your **Windows** username:
-
-    ```bash
-    cd /mnt/c/Users/<user>/Downloads
-    ```
-
-4. Once the directory has been changed to the folder containing the devkitPro pacman package, run the following commands to install devkitARM.
-
-    ```bash
-    sudo gdebi devkitpro-pacman.amd64.deb
-    sudo dkp-pacman -Sy
-    sudo dkp-pacman -S gba-dev
-    ```
-   The last command will ask for the selection of packages to install. Just press Enter to install all of them, followed by entering Y to proceed with the installation.
-
-    <details>
-        <summary><i>Note...</i></summary>
-
-   > Note: `devkitpro-pacman.amd64.deb` is the expected filename of the devkitPro package downloaded (for the first command). If the downloaded package filename differs, then use that filename instead.
-    </details>
-
-5. Run the following command to set devkitPro related environment variables (alternatively, close and re-open WSL):
-
-    ```bash
-    source /etc/profile.d/devkit-env.sh
-    ```
-
-devkitARM is now installed.
-
-### Installing devkitARM on Debian/Ubuntu-based distributions
-1. If `gdebi-core` is not installed, run the following command:
-
-    ```bash
-    sudo apt install gdebi-core
-    ```
-2. Download the devkitPro pacman package [here](https://github.com/devkitPro/pacman/releases). The file to download is `devkitpro-pacman.amd64.deb`.
-3. Change directory to where the package was downloaded. Then, run the following commands to install devkitARM:
-
-    ```bash
-    sudo gdebi devkitpro-pacman.amd64.deb
-    sudo dkp-pacman -Sy
-    sudo dkp-pacman -S gba-dev
-    ```
-   The last command will ask for the selection of packages to install. Just press Enter to install all of them, followed by entering Y to proceed with the installation.
-
-   > Note: `devkitpro-pacman.amd64.deb` is the expected filename of the devkitPro package downloaded (for the first command). If the downloaded package filename differs, then use that filename instead.
-
-4. Run the following command to set devkitPro related environment variables (alternatively, close and re-open the Terminal):
-
-    ```bash
-    source /etc/profile.d/devkit-env.sh
-    ```
-
-devkitARM is now installed.
-
 ## Other toolchains
 
-To build using a toolchain other than devkitARM, override the `TOOLCHAIN` environment variable with the path to your toolchain, which must contain the subdirectory `bin`.
+To build using another toolchain, override the `TOOLCHAIN` environment variable with the path to your toolchain, which must contain the subdirectory `bin`.
 ```bash
 make TOOLCHAIN="/path/to/toolchain/here"
 ```
@@ -588,10 +489,11 @@ The following is an example:
 ```bash
 make TOOLCHAIN="/usr/local/arm-none-eabi"
 ```
-To compile the `modern` target with this toolchain, the subdirectories `lib`, `include`, and `arm-none-eabi` must also be present.
+To compile with this toolchain, the subdirectories `lib`, `include`, and `arm-none-eabi` must also be present.
 
 # Useful additional tools
 
 * [porymap](https://github.com/huderlem/porymap) for viewing and editing maps
 * [poryscript](https://github.com/huderlem/poryscript) for scripting ([VS Code extension](https://marketplace.visualstudio.com/items?itemName=karathan.poryscript))
 * [Tilemap Studio](https://github.com/Rangi42/tilemap-studio) for viewing and editing tilemaps
+* [porydaw](https://github.com/huderlem/porydaw) for viewing and editing songs
